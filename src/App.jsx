@@ -26,10 +26,12 @@ function App() {
     <>
       <h1>Our Coctails</h1>
 
-      <button onClick={() => setIngredient("Gin")}>Gin</button>
-      <button onClick={() => setIngredient("Vodka")}>Vodka</button>
-      <button onClick={() => setIngredient("Rum")}>Rum</button>
-      <button onClick={() => setIngredient("Tequila")}>Tequila</button>
+      <div className="btn-cont">
+        <button onClick={() => setIngredient("Gin")}>Gin</button>
+        <button onClick={() => setIngredient("Vodka")}>Vodka</button>
+        <button onClick={() => setIngredient("Rum")}>Rum</button>
+        <button onClick={() => setIngredient("Tequila")}>Tequila</button>
+      </div>
 
       <div className="coctails-list">
         {coctails &&

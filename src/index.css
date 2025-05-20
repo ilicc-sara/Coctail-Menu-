@@ -10,6 +10,24 @@
   color: #efb8d2;
 }
 
+.btn-cont {
+  margin: 20px auto;
+  width: fit-content;
+  display: flex;
+  gap: 5px;
+}
+
+.btn-cont button {
+  border: 1px solid #efb8d288;
+  padding: 2px 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cont button:hover {
+  border: 1px solid #efb8d2;
+}
+
 .coctails-list {
   width: 1150px;
   margin: 20px auto;
@@ -17,9 +35,10 @@
   height: fit-content;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  row-gap: 20px;
+  row-gap: 30px;
 }
 .coctail-img {
   width: 250px;
   height: 250px;
+  border-radius: 5px;
 }
