@@ -7,3 +7,17 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.coctails-list {
+  width: 1150px;
+  margin: 20px auto;
+  background-color: pink;
+  height: fit-content;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  row-gap: 20px;
+}
+.coctail-img {
+  width: 250px;
+  height: 250px;
+}
