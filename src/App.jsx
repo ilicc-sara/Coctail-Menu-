@@ -27,7 +27,7 @@ function App() {
         `https://thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`
       );
       const posts = await response.json();
-      console.log(posts.drinks);
+      // console.log(posts.drinks);
       setCoctails(posts.drinks);
       setIngredient(ingredient);
     };
@@ -47,7 +47,7 @@ function App() {
         ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${input}`
       );
       const posts = await response.json();
-      console.log(posts.drinks);
+      // console.log(posts.drinks);
       setCoctails(posts.drinks);
     };
 
@@ -96,6 +96,7 @@ function App() {
                 key={index}
                 name={item.strDrink}
                 image={item.strDrinkThumb}
+                id={item.idDrink}
               />
             );
           })}
