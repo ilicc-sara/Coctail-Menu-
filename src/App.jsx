@@ -73,6 +73,9 @@ function App() {
         <button onClick={() => handleClick("Lemon")}>Lemon</button>
         <button onClick={() => handleClick("Campari")}>Campari</button>
         <button onClick={() => handleClick("Pineapple")}>Pineapple</button>
+        <button onClick={() => handleClick("Jagermeister")}>
+          Jagermeister
+        </button>
       </div>
 
       <form onSubmit={handleSubmit}>
