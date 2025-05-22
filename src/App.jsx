@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import CoctailItem from "./CoctailItem";
+import { throttle } from "throttle-debounce";
 
 function App() {
   const [coctails, setCoctails] = useState(null);
@@ -21,7 +22,8 @@ function App() {
     fetchPost();
   }, []);
 
-  function handleClick(ingredient) {
+  function handleClick(e) {
+    let ingredient = e.target.getAttribute("name");
     const fetchPost = async () => {
       const response = await fetch(
         `https://thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`
@@ -75,21 +77,8 @@ function App() {
   // staviti name kao attribute na btn i iskoristiti za text
   // debounce
 
-  const ingredients = [
-    { name: "Gin" },
-    { name: "Vodka" },
-    { name: "Rum" },
-    { name: "Tequila" },
-    { name: "Wine" },
-    { name: "Whiskey" },
-    { name: "Aperol" },
-    { name: "Campari" },
-    { name: "Jagermeister" },
-    { name: "Grenadine" },
-    { name: "Mint" },
-    { name: "Lemon" },
-    { name: "Pineapple" },
-  ];
+  // prettier-ignore
+  const ingredients = [{ name: "Gin" }, { name: "Vodka" }, { name: "Rum" }, { name: "Tequila" }, { name: "Wine" }, { name: "Whiskey" }, { name: "Aperol" }, { name: "Campari" }, { name: "Jagermeister" }, { name: "Grenadine" }, { name: "Mint" }, { name: "Lemon" }, { name: "Pineapple" } ];
 
   return (
     <>
@@ -98,36 +87,22 @@ function App() {
       <div className="btn-cont">
         {ingredients.map((ingredient, index) => {
           return (
-            <button key={index} onClick={() => handleClick([ingredient.name])}>
-              {ingredient.name}
-            </button>
+            // prettier-ignore
+            <button key={index} name={ingredient.name} onClick={(e) => handleClick(e)}> {ingredient.name} </button>
           );
         })}
       </div>
 
-      {/* <form onSubmit={handleSubmit}> */}
       <label>Search by name:</label>
-      <input
-        type="text"
-        className="input-name"
-        value={query}
-        onChange={(e) => handleInputChange(e)}
-        // value={input}
-        // onChange={handleInputChange}
-      />
-      <button className="hidden"></button>
-      {/* </form> */}
+      {/* prettier-ignore */}
+      <input type="text" className="input-name" value={query} onChange={(e) => handleInputChange(e)} />
 
       <div className="coctails-list">
         {coctails &&
           coctails.map((item, index) => {
             return (
-              <CoctailItem
-                key={index}
-                name={item.strDrink}
-                image={item.strDrinkThumb}
-                id={item.idDrink}
-              />
+              // prettier-ignore
+              <CoctailItem key={index} name={item.strDrink} image={item.strDrinkThumb} id={item.idDrink} />
             );
           })}
       </div>
