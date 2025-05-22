@@ -2,21 +2,61 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import CoctailItem from "./CoctailItem";
 import { throttle } from "throttle-debounce";
+import { debounce } from "throttle-debounce";
 
 function App() {
   const [coctails, setCoctails] = useState(null);
 
   const [query, setQuery] = useState("");
 
-  // const [input, setInput] = useState("");
+  // const throttleFunc = throttle(
+  //   1000,
+  //   (num) => {
+  //     console.log("(throttle) num:", num);
+  //   },
+  //   { noLeading: false, noTrailing: false }
+  // );
+
+  // // Can also be used like this, because noLeading and noTrailing are false by default
+  // // const throttleFunc = throttle(1000, (num) => {
+  // //   console.log("num:", num);
+  // // });
+
+  // throttleFunc(1); // Will execute the callback
+  // throttleFunc(2); // Won’t execute callback
+  // throttleFunc(3); // Won’t execute callback
+
+  // const debounceFunc = debounce(
+  //   1000,
+  //   (num) => {
+  //     console.log("(debounce) num:", num);
+  //   },
+  //   { atBegin: false }
+  // );
+
+  // // Can also be used like this, because atBegin is false by default
+  // // const debounceFunc = debounce(1000, (num) => {
+  // //   console.log("num:", num);
+  // // });
+
+  // // Won’t execute the callback, because atBegin is false,
+  // // but if we set atBegin to true, this callback will be executed.
+  // debounceFunc(1);
+
+  // debounceFunc(2); // Won’t execute callback
+  // debounceFunc(3); // Won’t execute callback
 
   useEffect(() => {
     const fetchPost = async () => {
-      const response = await fetch(
-        `https://thecocktaildb.com/api/json/v1/1/filter.php?i=Gin`
-      );
-      const posts = await response.json();
-      setCoctails(posts.drinks);
+      try {
+        const response = await fetch(
+          `https://thecocktaildb.com/api/json/v1/1/filter.php?i=Gin`
+        );
+        const posts = await response.json();
+        setCoctails(posts.drinks);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchPost();
@@ -37,17 +77,28 @@ function App() {
   }
 
   function handleInputChange(e) {
+    console.log(e.target.value);
     setQuery(e.target.value);
-
     console.log(query);
-
+    const newQuery = e.target.value;
+    if (!newQuery) return;
+    setQuery(newQuery);
     const fetchPost = async () => {
-      const response = await fetch(
-        ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
-      );
-      const posts = await response.json();
-      console.log(posts.drinks);
-      setCoctails(posts.drinks);
+      try {
+        const response = await fetch(
+          ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${newQuery}`
+        );
+        const posts = await response.json();
+        console.log(posts);
+        console.log(response);
+        console.log(posts.drinks);
+        if (!posts.drinks) return;
+        setCoctails(posts.drinks);
+        // if (!posts.drinks) alert("Error");
+      } catch (error) {
+        // if (!posts.drinks) alert("Error");
+        console.log("error", error);
+      }
     };
 
     fetchPost();
