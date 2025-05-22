@@ -4,10 +4,10 @@ import CoctailItem from "./CoctailItem";
 
 function App() {
   const [coctails, setCoctails] = useState(null);
-  const [ingredient, setIngredient] = useState("Tequila");
-  // const [query, setQuery] = useState("");
 
-  const [input, setInput] = useState("");
+  const [query, setQuery] = useState("");
+
+  // const [input, setInput] = useState("");
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -27,69 +27,96 @@ function App() {
         `https://thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`
       );
       const posts = await response.json();
-      // console.log(posts.drinks);
+
       setCoctails(posts.drinks);
-      setIngredient(ingredient);
     };
 
     fetchPost();
   }
 
-  function handleInputChange(event) {
-    setInput(event.target.value);
-  }
+  function handleInputChange(e) {
+    setQuery(e.target.value);
 
-  function handleSubmit(e) {
-    e.preventDefault();
+    console.log(query);
 
     const fetchPost = async () => {
       const response = await fetch(
-        ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${input}`
+        ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
       );
       const posts = await response.json();
-      // console.log(posts.drinks);
+      console.log(posts.drinks);
       setCoctails(posts.drinks);
     };
 
     fetchPost();
-
-    setInput("");
   }
+
+  // function handleInputChange(event) {
+  //   setInput(event.target.value);
+  // }
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+
+  //   const fetchPost = async () => {
+  //     const response = await fetch(
+  //       ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${input}`
+  //     );
+  //     const posts = await response.json();
+  //     // console.log(posts.drinks);
+  //     setCoctails(posts.drinks);
+  //   };
+
+  //   fetchPost();
+
+  //   setInput("");
+  // }
+  // napraviti const arr ingredients i svaki ing ima name
+  // staviti name kao attribute na btn i iskoristiti za text
+  // debounce
+
+  const ingredients = [
+    { name: "Gin" },
+    { name: "Vodka" },
+    { name: "Rum" },
+    { name: "Tequila" },
+    { name: "Wine" },
+    { name: "Whiskey" },
+    { name: "Aperol" },
+    { name: "Campari" },
+    { name: "Jagermeister" },
+    { name: "Grenadine" },
+    { name: "Mint" },
+    { name: "Lemon" },
+    { name: "Pineapple" },
+  ];
 
   return (
     <>
       <h1>Our Coctails</h1>
 
       <div className="btn-cont">
-        <button onClick={() => handleClick("Gin")}>Gin</button>
-        <button onClick={() => handleClick("Vodka")}>Vodka</button>
-        <button onClick={() => handleClick("Rum")}>Rum</button>
-        <button onClick={() => handleClick("Tequila")}>Tequila</button>
-        <button onClick={() => handleClick("Wine")}>Wine</button>
-        <button onClick={() => handleClick("Whiskey")}>Whiskey</button>
-        <button onClick={() => handleClick("Aperol")}>Aperol</button>
-        <button onClick={() => handleClick("Grenadine")}>Grenadine</button>
-        <button onClick={() => handleClick("Mint")}>Mint</button>
-        <button onClick={() => handleClick("Lemon")}>Lemon</button>
-        <button onClick={() => handleClick("Campari")}>Campari</button>
-        <button onClick={() => handleClick("Pineapple")}>Pineapple</button>
-        <button onClick={() => handleClick("Jagermeister")}>
-          Jagermeister
-        </button>
+        {ingredients.map((ingredient, index) => {
+          return (
+            <button key={index} onClick={() => handleClick([ingredient.name])}>
+              {ingredient.name}
+            </button>
+          );
+        })}
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <label>Search by name:</label>
-        <input
-          type="text"
-          className="input-name"
-          // value={query}
-          // onChange={(e) => setQuery(e.target.value)}
-          value={input}
-          onChange={handleInputChange}
-        />
-        <button className="hidden"></button>
-      </form>
+      {/* <form onSubmit={handleSubmit}> */}
+      <label>Search by name:</label>
+      <input
+        type="text"
+        className="input-name"
+        value={query}
+        onChange={(e) => handleInputChange(e)}
+        // value={input}
+        // onChange={handleInputChange}
+      />
+      <button className="hidden"></button>
+      {/* </form> */}
 
       <div className="coctails-list">
         {coctails &&
