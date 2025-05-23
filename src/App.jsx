@@ -11,43 +11,6 @@ function App() {
 
   const [error, showError] = useState(false);
 
-  // const throttleFunc = throttle(
-  //   1000,
-  //   (num) => {
-  //     console.log("(throttle) num:", num);
-  //   },
-  //   { noLeading: false, noTrailing: false }
-  // );
-
-  // // Can also be used like this, because noLeading and noTrailing are false by default
-  // // const throttleFunc = throttle(1000, (num) => {
-  // //   console.log("num:", num);
-  // // });
-
-  // throttleFunc(1); // Will execute the callback
-  // throttleFunc(2); // Won’t execute callback
-  // throttleFunc(3); // Won’t execute callback
-
-  // const debounceFunc = debounce(
-  //   1000,
-  //   (num) => {
-  //     console.log("(debounce) num:", num);
-  //   },
-  //   { atBegin: false }
-  // );
-
-  // // Can also be used like this, because atBegin is false by default
-  // // const debounceFunc = debounce(1000, (num) => {
-  // //   console.log("num:", num);
-  // // });
-
-  // // Won’t execute the callback, because atBegin is false,
-  // // but if we set atBegin to true, this callback will be executed.
-  // debounceFunc(1);
-
-  // debounceFunc(2); // Won’t execute callback
-  // debounceFunc(3); // Won’t execute callback
-
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -85,25 +48,34 @@ function App() {
     const newQuery = e.target.value;
     if (!newQuery) return;
     setQuery(newQuery);
-    const fetchPost = async () => {
-      try {
-        showError(false);
-        const response = await fetch(
-          ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${newQuery}`
-        );
-        const posts = await response.json();
-        console.log(posts);
-        console.log(response);
-        console.log(posts.drinks);
 
-        setCoctails(posts.drinks);
-        if (!posts.drinks) showError(true);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
+    const debounceFunc = debounce(1500, () => {
+      const fetchPost = async () => {
+        try {
+          showError(false);
+          const response = await fetch(
+            ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${newQuery}`
+          );
+          const posts = await response.json();
+          console.log(posts);
+          console.log(response);
+          console.log(posts.drinks);
 
-    fetchPost();
+          setCoctails(posts.drinks);
+          if (!posts.drinks) showError(true);
+        } catch (error) {
+          console.log("error", error);
+        }
+      };
+
+      fetchPost();
+    });
+
+    debounceFunc(); // will not be invoked
+
+    debounceFunc.cancel({ upcomingOnly: true });
+
+    debounceFunc(); // will be invoked
   }
 
   // prettier-ignore
