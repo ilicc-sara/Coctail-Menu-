@@ -9,6 +9,8 @@ function App() {
 
   const [query, setQuery] = useState("");
 
+  const [error, showError] = useState(false);
+
   // const throttleFunc = throttle(
   //   1000,
   //   (num) => {
@@ -85,6 +87,7 @@ function App() {
     setQuery(newQuery);
     const fetchPost = async () => {
       try {
+        showError(false);
         const response = await fetch(
           ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${newQuery}`
         );
@@ -92,41 +95,16 @@ function App() {
         console.log(posts);
         console.log(response);
         console.log(posts.drinks);
-        if (!posts.drinks) return;
+
         setCoctails(posts.drinks);
-        // if (!posts.drinks) alert("Error");
+        if (!posts.drinks) showError(true);
       } catch (error) {
-        // if (!posts.drinks) alert("Error");
         console.log("error", error);
       }
     };
 
     fetchPost();
   }
-
-  // function handleInputChange(event) {
-  //   setInput(event.target.value);
-  // }
-
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   const fetchPost = async () => {
-  //     const response = await fetch(
-  //       ` https://thecocktaildb.com/api/json/v1/1/search.php?s=${input}`
-  //     );
-  //     const posts = await response.json();
-  //     // console.log(posts.drinks);
-  //     setCoctails(posts.drinks);
-  //   };
-
-  //   fetchPost();
-
-  //   setInput("");
-  // }
-  // napraviti const arr ingredients i svaki ing ima name
-  // staviti name kao attribute na btn i iskoristiti za text
-  // debounce
 
   // prettier-ignore
   const ingredients = [{ name: "Gin" }, { name: "Vodka" }, { name: "Rum" }, { name: "Tequila" }, { name: "Wine" }, { name: "Whiskey" }, { name: "Aperol" }, { name: "Campari" }, { name: "Jagermeister" }, { name: "Grenadine" }, { name: "Mint" }, { name: "Lemon" }, { name: "Pineapple" } ];
@@ -148,15 +126,21 @@ function App() {
       {/* prettier-ignore */}
       <input type="text" className="input-name" value={query} onChange={(e) => handleInputChange(e)} />
 
-      <div className="coctails-list">
-        {coctails &&
-          coctails.map((item, index) => {
-            return (
-              // prettier-ignore
-              <CoctailItem key={index} name={item.strDrink} image={item.strDrinkThumb} id={item.idDrink} />
-            );
-          })}
-      </div>
+      {!error && (
+        <div className="coctails-list">
+          {coctails &&
+            coctails.map((item, index) => {
+              return (
+                // prettier-ignore
+                <CoctailItem key={index} name={item.strDrink} image={item.strDrinkThumb} id={item.idDrink} />
+              );
+            })}
+        </div>
+      )}
+
+      {error && (
+        <h1 className="err-msg">There's no coctails with this name...</h1>
+      )}
     </>
   );
 }

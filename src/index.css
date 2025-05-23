@@ -60,6 +60,10 @@ form {
   border-radius: 5px;
 }
 
+.err-msg {
+  margin-top: 50px;
+}
+
 .hidden {
   display: none;
 }
