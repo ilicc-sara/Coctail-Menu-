@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import CoctailItem from "./CoctailItem";
-import { throttle } from "throttle-debounce";
 import { debounce } from "throttle-debounce";
 
 function App() {
