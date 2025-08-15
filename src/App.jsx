@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import CoctailItem from "./CoctailItem";
 import { debounce } from "throttle-debounce";
+import { ingredients } from "./ingredients";
 
 function App() {
   const [coctails, setCoctails] = useState(null);
@@ -77,9 +78,6 @@ function App() {
     debounceFunc(); // will be invoked
   }
 
-  // prettier-ignore
-  const ingredients = [{ name: "Gin" }, { name: "Vodka" }, { name: "Rum" }, { name: "Tequila" }, { name: "Wine" }, { name: "Whiskey" }, { name: "Aperol" }, { name: "Campari" }, { name: "Jagermeister" }, { name: "Grenadine" }, { name: "Mint" }, { name: "Lemon" }, { name: "Pineapple" } ];
-
   return (
     <>
       <h1>Our Coctails</h1>
@@ -87,23 +85,37 @@ function App() {
       <div className="btn-cont">
         {ingredients.map((ingredient, index) => {
           return (
-            // prettier-ignore
-            <button key={index} name={ingredient.name} onClick={(e) => handleClick(e)}> {ingredient.name} </button>
+            <button
+              key={index}
+              name={ingredient.name}
+              onClick={(e) => handleClick(e)}
+            >
+              {ingredient.name}
+            </button>
           );
         })}
       </div>
 
       <label>Search by name:</label>
-      {/* prettier-ignore */}
-      <input type="text" className="input-name" value={query} onChange={(e) => handleInputChange(e)} />
+
+      <input
+        type="text"
+        className="input-name"
+        value={query}
+        onChange={(e) => handleInputChange(e)}
+      />
 
       {!error && (
         <div className="coctails-list">
           {coctails &&
             coctails.map((item, index) => {
               return (
-                // prettier-ignore
-                <CoctailItem key={index} name={item.strDrink} image={item.strDrinkThumb} id={item.idDrink} />
+                <CoctailItem
+                  key={index}
+                  name={item.strDrink}
+                  image={item.strDrinkThumb}
+                  id={item.idDrink}
+                />
               );
             })}
         </div>
